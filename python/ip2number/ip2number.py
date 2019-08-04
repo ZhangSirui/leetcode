@@ -1,0 +1,28 @@
+# ip地址转换为数字
+"""
+Programming Question:
+Convert an IPv4 address in the format of null-terminated C string into a 32-bit integer.For example, given an IP address “172.168.5.1”, the output should be a 32-bit integerwith “172” as the highest order 8 bit, 168 as the second highest order 8 bit, 5 as thesecond lowest order 8 bit, and 1 as the lowest order 8 bit.
+That is,"172.168.5.1" => 2896692481
+Requirements:
+1. You can only iterate the string once.
+2. You should handle spaces correctly: a string with spaces between a digit and a dot isa valid input; while a string with spaces between two digits is not."172[Space].[Space]168.5.1" is a valid input. Should process the output normally."1[Space]72.168.5.1" is not a valid input. Should report an error.
+3. Please provide unit tests.
+"""
+
+import re
+
+class Solution:
+    def ip2number(self, ip):
+        def is_valid_ip(address):
+            r = '(\d+\s\d+)+'
+            result = re.match(r, address)
+            return result.group() if result else None
+        if is_valid_ip(ip):
+            return "ip address is not valid!"
+        ip_list = ip.split('.')
+        ip_list.reverse()
+        numbers = [256**int(i)*int(j) for i,j in enumerate(ip_list)]
+        number = sum(numbers)
+        return number
+s = Solution()
+print(s.ip2number("172.168.5.1"))
